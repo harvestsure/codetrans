@@ -18,7 +18,7 @@ export default function Home() {
   const [convertedCode, setConvertedCode] = useState("")
   const [sourceLanguage, setSourceLanguage] = useState("auto")
   const [targetLanguage, setTargetLanguage] = useState("python")
-  const [selectedModel, setSelectedModel] = useState("deepseek")
+  const [selectedModel, setSelectedModel] = useState("gemini")
   const [isConverting, setIsConverting] = useState(false)
   const [detectedLanguage, setDetectedLanguage] = useState<string | null>(null)
 
