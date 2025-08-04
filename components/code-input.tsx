@@ -15,11 +15,7 @@ export function CodeInput({ value, onChange, placeholder, language, className }:
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   useEffect(() => {
-    if (textareaRef.current) {
-      // Auto-resize textarea
-      textareaRef.current.style.height = "auto"
-      textareaRef.current.style.height = textareaRef.current.scrollHeight + "px"
-    }
+
   }, [value])
 
   return (

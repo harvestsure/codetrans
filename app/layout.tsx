@@ -4,6 +4,7 @@ import { Inter } from "next/font/google"
 import { Toaster } from "sonner"
 import { ThemeProvider } from "@/components/theme-provider"
 import { GoogleAnalytics } from "@next/third-parties/google"
+import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 
 import { cn } from "@/lib/utils"
@@ -171,6 +172,7 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           {children}
           <Toaster position="top-right" />
+          <Analytics />
         </ThemeProvider>
         <GoogleAnalytics gaId={GA4_ID} />
       </body>

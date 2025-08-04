@@ -80,7 +80,7 @@ export default function Home() {
     const file = new Blob([convertedCode], { type: "text/plain" })
     element.href = URL.createObjectURL(file)
 
-    // 根据语言确定文件扩展名
+    // Determine file extension based on language
     const extensions: Record<string, string> = {
       javascript: "js",
       typescript: "ts",

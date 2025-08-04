@@ -13,7 +13,7 @@ interface CodeBlockProps {
   language: string
 }
 
-// 语言映射，将我们的语言标识符映射到 Prism 支持的语言
+// Language mapping, mapping our language identifiers to the languages supported by Prism
 const languageMap: Record<string, string> = {
   javascript: "javascript",
   typescript: "typescript",
@@ -62,56 +62,11 @@ export function CodeBlock({ code, language }: CodeBlockProps) {
     }
   }
 
-  const handleDownload = () => {
-    const element = document.createElement("a")
-    const file = new Blob([code], { type: "text/plain" })
-    element.href = URL.createObjectURL(file)
-
-    // 根据语言确定文件扩展名
-    const extensions: Record<string, string> = {
-      javascript: "js",
-      typescript: "ts",
-      python: "py",
-      java: "java",
-      csharp: "cs",
-      cpp: "cpp",
-      c: "c",
-      go: "go",
-      rust: "rs",
-      php: "php",
-      ruby: "rb",
-      swift: "swift",
-      kotlin: "kt",
-      scala: "scala",
-      dart: "dart",
-      r: "r",
-      matlab: "m",
-      perl: "pl",
-      lua: "lua",
-      shell: "sh",
-      powershell: "ps1",
-      sql: "sql",
-      html: "html",
-      css: "css",
-      json: "json",
-      xml: "xml",
-      yaml: "yml",
-      markdown: "md",
-    }
-
-    const ext = extensions[language] || "txt"
-    element.download = `converted-code.${ext}`
-    document.body.appendChild(element)
-    element.click()
-    document.body.removeChild(element)
-    toast.success("Code downloaded!")
-  }
-
   const prismLanguage = languageMap[language] || language
 
   return (
     <div className="relative h-full flex flex-col bg-gray-50 dark:bg-gray-900 rounded-lg overflow-hidden">
-      {/* 代码内容 */}
+      {/* Code content */}
       <div className="flex-1 overflow-auto">
         <SyntaxHighlighter
           language={prismLanguage}
