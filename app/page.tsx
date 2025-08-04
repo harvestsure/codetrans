@@ -3,14 +3,14 @@
 import { useState, useCallback } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
-import { ArrowRight, Copy, Sparkles, Zap, Code2, Github } from "lucide-react"
+import { ArrowRight, Copy, Sparkles, Zap, Code2, Github, Download } from "lucide-react"
 import { toast } from "sonner"
 import { CodeBlock } from "@/components/code-block"
 import { LanguageSelector } from "@/components/language-selector"
 import { ModelSelector } from "@/components/model-selector"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { CodeInput } from "@/components/code-input"
 import { languages } from "@/lib/languages"
 
 export default function Home() {
@@ -74,6 +74,51 @@ export default function Home() {
       toast.error("Failed to copy code")
     }
   }, [])
+
+  const handleDownload = () => {
+    const element = document.createElement("a")
+    const file = new Blob([convertedCode], { type: "text/plain" })
+    element.href = URL.createObjectURL(file)
+
+    // 根据语言确定文件扩展名
+    const extensions: Record<string, string> = {
+      javascript: "js",
+      typescript: "ts",
+      python: "py",
+      java: "java",
+      csharp: "cs",
+      cpp: "cpp",
+      c: "c",
+      go: "go",
+      rust: "rs",
+      php: "php",
+      ruby: "rb",
+      swift: "swift",
+      kotlin: "kt",
+      scala: "scala",
+      dart: "dart",
+      r: "r",
+      matlab: "m",
+      perl: "pl",
+      lua: "lua",
+      shell: "sh",
+      powershell: "ps1",
+      sql: "sql",
+      html: "html",
+      css: "css",
+      json: "json",
+      xml: "xml",
+      yaml: "yml",
+      markdown: "md",
+    }
+
+    const ext = extensions[targetLanguage] || "txt"
+    element.download = `converted-code.${ext}`
+    document.body.appendChild(element)
+    element.click()
+    document.body.removeChild(element)
+    toast.success("Code downloaded!")
+  }
 
   const getLanguageDisplayName = (langCode: string) => {
     const language = languages.find((lang) => lang.value === langCode)
@@ -205,7 +250,7 @@ export default function Home() {
           {/* Code Conversion Interface */}
           <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-6 min-h-0">
             {/* Source Code */}
-            <Card className="flex flex-col min-h-0">
+            <Card className="flex flex-col min-h-0 border-2 border-gray-200/50 dark:border-gray-700/50 hover:border-blue-200 dark:hover:border-blue-800 transition-colors">
               <CardHeader className="pb-3 flex-shrink-0">
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-lg flex items-center gap-2">
@@ -240,18 +285,17 @@ export default function Home() {
                 </div>
               </CardHeader>
               <CardContent className="flex-1 p-0 min-h-0">
-                <Textarea
-                  placeholder="Paste your code here... The language will be automatically detected. Supports JavaScript, Python, Java, C++, Go, Rust, PHP, Ruby, Swift, Kotlin and more."
+                <CodeInput
                   value={sourceCode}
-                  onChange={(e) => setSourceCode(e.target.value)}
-                  className="h-full resize-none border-0 focus-visible:ring-0 font-mono text-sm min-h-0"
-                  aria-label="Source code input"
+                  onChange={setSourceCode}
+                  placeholder="Paste your code here... The language will be automatically detected. Supports JavaScript, Python, Java, C++, Go, Rust, PHP, Ruby, Swift, Kotlin and more."
+                  language={detectedLanguage || sourceLanguage}
                 />
               </CardContent>
             </Card>
 
             {/* Converted Code */}
-            <Card className="flex flex-col min-h-0">
+            <Card className="flex flex-col min-h-0 border-2 border-gray-200/50 dark:border-gray-700/50">
               <CardHeader className="pb-3 flex-shrink-0">
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-lg flex items-center gap-2">
@@ -260,25 +304,36 @@ export default function Home() {
                       {getLanguageDisplayName(targetLanguage)}
                     </Badge>
                   </CardTitle>
+
                   {convertedCode && (
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleCopy(convertedCode)}
-                      aria-label="Copy converted code"
-                    >
-                      <Copy className="w-4 h-4" />
-                    </Button>
+                    <div className="flex items-center gap-2 ml-auto">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleCopy(convertedCode)}
+                        aria-label="Copy converted code"
+                      >
+                        <Copy className="w-4 h-4" />
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={handleDownload}
+                        aria-label="Download code"
+                      >
+                        <Download className="h-4 w-4" />
+                      </Button>
+                    </div>
                   )}
                 </div>
               </CardHeader>
-              <CardContent className="flex-1 p-4 min-h-0">
+              <CardContent className="flex-1 p-0 min-h-0">
                 {convertedCode ? (
-                  <div className="h-full overflow-auto">
+                  <div className="h-full overflow-hidden">
                     <CodeBlock code={convertedCode} language={targetLanguage} />
                   </div>
                 ) : (
-                  <div className="h-full flex items-center justify-center text-muted-foreground">
+                  <div className="h-full flex items-center justify-center text-muted-foreground p-8">
                     <div className="text-center">
                       <Code2 className="w-12 h-12 mx-auto mb-4 opacity-50" />
                       <p>Converted code will appear here...</p>
