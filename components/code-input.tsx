@@ -14,10 +14,6 @@ interface CodeInputProps {
 export function CodeInput({ value, onChange, placeholder, language, className }: CodeInputProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
-  useEffect(() => {
-
-  }, [value])
-
   return (
     <div className="relative h-full">
       <textarea
@@ -26,7 +22,7 @@ export function CodeInput({ value, onChange, placeholder, language, className }:
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         className={cn(
-          "w-full h-full resize-none border-0 bg-transparent p-4 font-mono text-sm min-h-0",
+          "w-full h-full resize-none border-0 outline-none bg-transparent p-4 font-mono text-sm min-h-0",
           "placeholder:text-muted-foreground/60",
           "focus:outline-none focus:ring-0",
           "transition-all duration-200",
