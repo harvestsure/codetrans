@@ -192,7 +192,7 @@ export default function Home() {
         {/* Main Content */}
         <main className="flex-1 flex flex-col px-6 py-6 min-h-0">
           {/* Hero Section */}
-          <div className="text-center mb-6 flex-shrink-0">
+          {/* <div className="text-center mb-6 flex-shrink-0">
             <h2 className="text-3xl font-bold mb-2 bg-gradient-to-r from-gray-900 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
               AI-Powered Code Conversion
             </h2>
@@ -206,7 +206,7 @@ export default function Home() {
                 Powered by DeepSeek Coder, OpenAI GPT-4, Claude, and Gemini
               </Badge>
             </div>
-          </div>
+          </div> */}
 
           {/* Controls */}
           <div className="flex flex-col sm:flex-row gap-4 mb-6 items-center justify-center flex-shrink-0">
