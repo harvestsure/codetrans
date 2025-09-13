@@ -112,3 +112,7 @@
 .code-content span {
   font-family: inherit;
 }
+
+code[class*="language-"], pre[class*="language-"] {
+  background: transparent !important;
+}
